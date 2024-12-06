@@ -1,0 +1,93 @@
+.date-wrapper {
+  position: relative;
+  
+}
+.date-title{
+  display: flex;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.require{
+  color: red;
+}
+.date_input {
+  width: 320px;
+  height: 56px;
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  font-weight: 300;
+  padding-right: 30px;
+  padding-left: 25px;
+  padding-top: 4px;
+  position: relative;
+  cursor: pointer;
+}
+.date_input:hover {
+  border: 1px solid #6b6bff;
+}
+
+.air-datepicker {
+  font-family: "Montserrat", sans-serif;
+  width: 360px;
+  height: 352px;
+  border-radius: 16px;
+}
+
+.air-datepicker-body--cells.-months- {
+  row-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.air-datepicker-body--cells.-years- {
+  row-gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.air-datepicker-body--day-names {
+  padding-top: 10px;
+}
+.air-datepicker-body--day-name {
+  color: #4da2d6;
+}
+.air-datepicker-body--cells.-days- {
+  padding-top: 10px;
+  row-gap: 10px;
+}
+
+.air-datepicker-cell.-day- {
+  width: 50px;
+  height: 50px;
+}
+.air-datepicker-nav--title i {
+  color: #4da2d6;
+}
+
+.air-datepicker-cell.-selected- {
+  background: #5ccc81;
+  border-radius: 50%;
+}
+
+.air-datepicker-cell.-selected-.-current- {
+  background: #5ccc81;
+}
+.air-datepicker-cell.-selected-:hover {
+  background: #5ccc81;
+}
+.date-icon {
+  position: absolute;
+  top: 50px;
+  left: 280px;
+  background-image: url(../../assets/date-icon.png);
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+}
+.error-container{
+  height: 20px;
+}
+.error{
+  color: red;
+
+}
