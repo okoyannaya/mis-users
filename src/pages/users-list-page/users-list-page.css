@@ -1,0 +1,46 @@
+.users-list-page{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: #f4f6f9;
+}
+
+.header-user-list-page{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.quantity-people{
+    font-size: 22px;
+}
+.span-bold{
+    font-weight: 700;
+}
+
+.add-button-wrapper{
+    position: relative;
+}
+
+.add-button{
+    padding: 10px 30px 12px 60px;
+    border-radius: 15px;
+    border: none;
+    background-color: #00ab0080;
+    cursor: pointer;
+}
+
+.add-button-icon{
+    background-image: url(../../assets/sign.png);
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    position: absolute;
+    left: 20px;
+    top: 9px;
+    cursor: pointer;
+}
+
+.add-button:hover{
+    background-color: rgba(0, 171, 0, 0.788);
+}
