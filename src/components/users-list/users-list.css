@@ -54,13 +54,7 @@
   position: sticky;
   top: 0;
   z-index: 1;
-}
-
-.icon-sort {
-  background-image: url(../../assets/sort.png);
-  background-size: cover;
-  width: 12px;
-  height: 14px;
+  user-select: none
 }
 
 .column-sort {
@@ -94,6 +88,10 @@
 .table-row {
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
+  border-radius: 15px;
+}
+.table-row:hover{
+  background-color: #5555552e;
 }
 
 .user-info {
@@ -150,4 +148,8 @@
   text-align: center;
   padding: 20px;
   color: #999;
+}
+
+.test{
+  background-image: url(../../assets/doctor-m.png);
 }

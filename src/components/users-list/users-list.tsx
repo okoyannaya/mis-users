@@ -5,6 +5,9 @@ import { useAppDispatch } from "@containers/redux/hooks";
 import { RootState } from "@containers/redux/store";
 import { fetchAllUsers, User } from "@containers/redux/users-slice";
 
+import { HeaderTable } from "./header-table";
+import { UserRow } from "./user-row";
+
 import "./users-list.css";
 
 type SortField = "last_name" | "gender" | "birth_date";
@@ -17,31 +20,29 @@ export const UsersList: FC = () => {
   );
 
   const [sortedUsers, setSortedUsers] = useState<User[]>(users);
-  const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortOrder, setSortOrder] = useState<SortOrder>("default");
+  const [sortConfig, setSortConfig] = useState<{
+    field: SortField | null;
+    order: SortOrder;
+  }>({ field: null, order: "default" });
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setSortedUsers([...users]);
-  }, [users]);
 
   const handleSort = (field: SortField) => {
     let nextOrder: SortOrder = "asc";
-    if (sortField === field) {
+
+    if (sortConfig.field === field) {
       nextOrder =
-        sortOrder === "asc" ? "desc" : sortOrder === "desc" ? "default" : "asc";
+        sortConfig.order === "asc"
+          ? "desc"
+          : sortConfig.order === "desc"
+          ? "default"
+          : "asc";
     }
 
-    setSortField(field);
-    setSortOrder(nextOrder);
+    setSortConfig({ field, order: nextOrder });
 
     if (nextOrder === "default") {
       setSortedUsers([...users]);
-      
+
       return;
     }
 
@@ -71,88 +72,36 @@ export const UsersList: FC = () => {
     setSortedUsers(sorted);
   };
 
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+  };
+
   const filteredUsers = sortedUsers.filter((user) =>
     user.last_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setSortedUsers([...users]);
+  }, [users]);
 
   if (loading) return <Loader isLoading={loading} />;
   if (error) return <div>Ошибка: {error}</div>;
 
   return (
     <div className="table-wrapper">
-      <div className="header-wrapper">
-        <div className="table-header">
-          <input
-            className="search-input"
-            type="text"
-            placeholder="Поиск по фамилии"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <div className="search-icon" />
-        </div>
-        <div className="table-columns grid">
-          <div
-            className="column-header column-sort"
-            onClick={() => handleSort("last_name")}
-          >
-            ФИО пользователя
-            <div className="icon-sort" />
-            {sortField === "last_name" &&
-              (sortOrder === "asc"
-                ? " А-Я"
-                : sortOrder === "desc"
-                ? " Я-А"
-                : "")}
-          </div>
-          <div className="column-header">Контактные данные</div>
-          <div
-            className="column-header column-sort"
-            onClick={() => handleSort("birth_date")}
-          >
-            Дата рождения
-            <div className="icon-sort" />
-          </div>
-          <div
-            className="column-header column-sort"
-            onClick={() => handleSort("gender")}
-          >
-            Пол
-            <div className="icon-sort" />
-          </div>
-          <div className="column-header">Роль</div>
-          <div className="column-header" />
-        </div>
-      </div>
+      <HeaderTable
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        sortConfig={sortConfig}
+        onSort={handleSort}
+      />
       <div className="table-body">
         {filteredUsers.length ? (
-          filteredUsers.map((user) => (
-            <div className="table-row grid" key={user.id}>
-              <div className="user-info">
-                <div
-                  className="avatar"
-                  style={{ backgroundImage: `url(${user.avatar})` }}
-                ></div>
-                <span className="user-name">
-                  {user.first_name} {user.last_name}
-                </span>
-              </div>
-              <div className="user-email">{user.email}</div>
-              <div className="user-date">
-                {user.birth_date ? user.birth_date : "Не указано"}
-              </div>
-              <div className="user-gender">
-                {user.gender ? user.gender : "Не указано"}
-              </div>
-              <div className="user-role">
-                {user.role ? user.role : "Не указано"}
-              </div>
-              <div className="user-actions">
-                <button className="edit-btn">✎</button>
-                <button className="delete-btn">🗑</button>
-              </div>
-            </div>
-          ))
+          filteredUsers.map((user) => <UserRow user={user} key={user.id} />)
         ) : (
           <div className="empty-message">Список пользователей пуст</div>
         )}
